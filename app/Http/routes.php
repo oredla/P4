@@ -11,10 +11,38 @@
 |
 */
 
+//dashboard
 Route::get('/', function () {
     return view('welcome');
 });
 
+// *****************************************************************************
+// User Profile and Management routes
+// *****************************************************************************
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user', 'UsersController@getUser')
+});
+ // *****************************************************************************
+ // User authentication routes
+ // *****************************************************************************
+# Show login form
+Route::get('/login', 'Auth\AuthController@getLogin');
+
+# Process login form
+Route::post('/login', 'Auth\AuthController@postLogin');
+
+# Process logout
+Route::get('/logout', 'Auth\AuthController@getLogout');
+
+# Show registration form
+Route::get('/register', 'Auth\AuthController@getRegister');
+
+# Process registration form
+Route::post('/register', 'Auth\AuthController@postRegister');
+
+ // *****************************************************************************
+ // ***********               for DEBUGGING DATABASE                  ***********
+ // *****************************************************************************
 Route::get('/debug', function() {
 
     echo '<pre>';
@@ -50,9 +78,13 @@ Route::get('/debug', function() {
 
 });
 
-// for dropping all tables
+
+// *****************************************************************************
+// ***********               for LOCAL DEVELOPMENT ONLY              ***********
+// *****************************************************************************
 if(App::environment('local')) {
 
+    // for dropping all tables
     Route::get('/drop', function() {
 
         DB::statement('DROP database rooms_db');
@@ -61,4 +93,19 @@ if(App::environment('local')) {
         return 'Dropped rooms_db; created rooms_db.';
     });
 
+    Route::get('/confirm-login-worked', function() {
+
+        # You may access the authenticated user via the Auth facade
+        $user = Auth::user();
+
+        if($user) {
+            echo 'You are logged in.';
+            dump($user->toArray());
+        } else {
+            echo 'You are not logged in.';
+        }
+
+        return;
+
+    });
 };
