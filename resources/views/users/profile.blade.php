@@ -77,9 +77,20 @@
         <label class="col-sm-2 control-label">User Role</label>
         <div class="col-sm-10">
             @if($edit && $user->user_role == 'admin')
-                <input type="text" class="form-control" name="inputUserRole"
-                        placeholder="User Role"
-                        value="{{ $user->user_role }}">
+                <select id='inputUserRole' name='inputUserRole' class='form-control'>
+                    <option value='admin'
+                        @if(old('inputUserRole') == 'admin')
+                            SELECTED
+                        @endif>
+                        Admin
+                    </option>
+                    <option value='member'
+                        @if(old('inputUserRole') == 'member')
+                             SELECTED
+                        @endif>
+                        Member
+                    </option>
+                </select>
             @else
                 <p class="form-control-static">{{ $user->user_role }}</p>
             @endif
@@ -98,12 +109,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">Verification Status</label>
+        <label class="col-sm-2 control-label">User Verified</label>
         <div class="col-sm-10">
             @if($edit)
                 @if($user->user_role == 'admin')
-                    <input type="checkbox" class="form-control" name="inputUserVerified"
-                            placeholder="Verification Status" style="align:left;"
+                    <input type="checkbox" name="inputUserVerified"
+                            placeholder="Verification Status"
                             @if($user->user_verified == 1)
                                 checked
                             @endif>

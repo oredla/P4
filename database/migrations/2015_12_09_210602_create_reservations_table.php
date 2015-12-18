@@ -34,6 +34,7 @@ class CreateReservationsTable extends Migration
             $table->integer('expected_num_of_attendees');
             $table->string('status', 10);
             $table->text('status_notes');
+            $table->integer('approved_by');
         });
     }
 

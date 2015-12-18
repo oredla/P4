@@ -19,7 +19,7 @@ class RoomsController extends Controller {
                             ->with('timeslot')
                             ->with('reservation')
                             ->get();
-        return view('rooms.roomsList')->with('rooms', $rooms);
+        return view('rooms.list')->with('rooms', $rooms);
     }
 
     /**
@@ -32,7 +32,8 @@ class RoomsController extends Controller {
                                         ->orderBy('start_time', 'ASC')
                                         ->orderBy('date_of_event','ASC')
                                         ->get();
-        return view('rooms.reservationsList')->with('reservations', $reservations);
+        return view('rooms.reservationsList')->with('reservations', $reservations)
+                                                ->with('room_id', $room_id);
     }
 
     /**
@@ -42,12 +43,12 @@ class RoomsController extends Controller {
         $reservations = \App\Reservation::with('room')
                                         ->with('user')
                                         ->where('room_id', $room_id)
-                                        ->where('date_of_event', '>=', \Carbon\Carbon::now())
-                                        ->where('start_time', '>=', \Carbon\Carbon::now())
-                                        ->orderBy('start_time', 'ASC')
+                                        ->where('date_of_event', '>=', date(\Carbon\Carbon::now()))
                                         ->orderBy('date_of_event','ASC')
+                                        ->orderBy('start_time', 'ASC')
                                         ->get();
-        return view('rooms.reservationsList')->with('reservations', $reservations);
+        return view('rooms.reservationsList')->with('reservations', $reservations)
+                                                ->with('room_id', $room_id);
     }
 
     /**
@@ -63,7 +64,6 @@ class RoomsController extends Controller {
     public function postRoomsCreate(Request $request) {
         $this->validate($request,
             [
-              'id' => 'required|integer',
               'inputRoomName' => 'required',
               'inputRoomLocation' => 'required',
               'inputRoomMaxPpl' => 'required|integer',
@@ -84,7 +84,15 @@ class RoomsController extends Controller {
      */
     public function getRoomsEdit($room_id) {
         $room = \App\Room::find($room_id);
-        return view('rooms.detail')->with('room', $room);
+        return view('rooms.detail')->with('room', $room)->with('edit', true);
+    }
+
+    /**
+     * Responds to requests to GET /rooms/view/{room_id?}
+     */
+    public function getView($room_id) {
+        $room = \App\Room::find($room_id);
+        return view('rooms.detail')->with('room', $room)->with('edit', false);
     }
 
     /**
@@ -105,7 +113,7 @@ class RoomsController extends Controller {
         $room->save();
 
         \Session::flash('flash_message','Room information has been updated.');
-        return redirect('/rooms/edit/'.$request->id);
+        return redirect('/rooms/view/'.$request->id);
     }
 
     /**

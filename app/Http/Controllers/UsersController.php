@@ -132,4 +132,37 @@ class UsersController extends Controller {
         }
 
     }
+
+    /**
+     * Responds to requests to GET /user/create
+     */
+    public function getCreate() {
+        return view('users.create');
+    }
+
+    /**
+     * Responds to requests to POST /user/create
+     */
+    public function postCreate(Request $request) {
+        $this->validate($request,
+            [
+              'id' => 'required',
+              'inputEmail' => 'required|email',
+              'inputName' => 'required',
+            ]
+        );
+
+        $user = \App\User::find($request->id);
+        $user->name = $request->inputName;
+        $user->email = $request->inputEmail;
+        if(($user->user_role == 'admin') and isset($request->inputUserRole)){
+            $user->user_role = $request->inputUserRole;
+        }
+        $user->user_group = $request->inputUserGroup;
+        $user->user_verified = $request->inputUserVerified;
+        $user->save();
+
+        \Session::flash('flash_message','New User: '.$user->name.' has been saved.');
+        return redirect('/user');
+    }
  }

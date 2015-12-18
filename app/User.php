@@ -46,8 +46,30 @@ class User extends Model implements AuthenticatableContract,
     protected $dates = ['deleted_at'];
 
     public function reservation(){
-        # Room has many Reservations
+        # User has many Reservations
         # Define a one-to-many relationship.
         return $this->hasMany('\App\Reservation');
+    }
+
+    public static function adminsForDropdown() {
+        $users = \App\User::where('user_role','=','admin')
+                            ->orderBy('name','ASC')
+                            ->get();
+        $users_for_dropdown = [];
+        foreach($users as $user) {
+            $users_for_dropdown[$user->id] = $user->name;
+        }
+
+        return $users_for_dropdown;
+    }
+    public static function usersForDropdown() {
+        $users = \App\User::orderBy('name','ASC')
+                            ->get();
+        $users_for_dropdown = [];
+        foreach($users as $user) {
+            $users_for_dropdown[$user->id] = $user->name;
+        }
+
+        return $users_for_dropdown;
     }
 }

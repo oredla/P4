@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    @if($access)
+    @if($access && $edit)
         Editing
     @else
         Viewing
@@ -15,12 +15,21 @@
         Information for {{ $room->room_name }}
     </span>
     @if($access)
-        <a href="/rooms/confirm-delete/{{ $room->id }}" style="float:right;">
-            <button type="button" class="btn btn-default btn-md btn-danger">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                 Delete this room
-            </button>
-        </a>
+        @if(!$edit)
+            <a href="/rooms/edit/{{ $room->id }}">
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                     Edit
+                </button>
+            </a>
+        @else
+            <a href="/rooms/confirm-delete/{{ $room->id }}">
+                <button type="button" class="btn btn-default btn-lg btn-danger">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                     Delete this room
+                </button>
+            </a>
+        @endif
     @endif
 </h2>
 @stop
@@ -32,7 +41,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Room Name</label>
         <div class="col-sm-10">
-            @if($access)
+            @if($access && $edit)
                 <input type="text" class="form-control" name="inputRoomName"
                         placeholder="Name of the Room"
                         value="{{ $room->room_name }}">
@@ -44,7 +53,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Room Location</label>
         <div class="col-sm-10">
-            @if($access)
+            @if($access && $edit)
                 <input type="text" class="form-control" name="inputRoomLocation"
                         placeholder="Room Location (A brief description)"
                         value="{{ $room->room_location }}">
@@ -56,7 +65,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Maximum Capacity</label>
         <div class="col-sm-10">
-            @if($access)
+            @if($access && $edit)
                 <input type="number" class="form-control" name="inputRoomMaxPpl"
                         placeholder="Maximum Capacity Allowed" min="1"
                         value="{{ $room->room_max_ppl }}">
@@ -65,7 +74,7 @@
             @endif
         </div>
     </div>
-    @if($access)
+    @if($access && $edit)
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default btn-lg">
@@ -87,7 +96,7 @@
             <a href="/rooms">
                 <button type="button" class="btn btn-default btn-lg">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                     Return to previous page
+                     Return to rooms listing
                 </button>
             </a>
         </div>

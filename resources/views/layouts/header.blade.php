@@ -39,36 +39,53 @@
                     <li @if(Request::getRequestUri() == "/user") class="active" @endif>
                         <a href='/user'>{{ $user->name }}&#39;s Profile</a>
                     </li>
-                    <li class="dropdown" @if(str_contains(Request::getRequestUri(),"/rooms")) class="active" @endif>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button"
                         aria-haspopup="true" aria-expanded="false">Rooms
                         <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li @if(str_contains(Request::getRequestUri(),"/rooms")) class="active" @endif>
+                            <li>
                                 <a href="/rooms">View all rooms</a>
                             </li>
                             @if($access)
                                 <li role="separator" class="divider"></li>
-                                <li @if(str_contains(Request::getRequestUri(),"/rooms/create")) class="active" @endif>
+                                <li>
                                     <a href="/rooms/create">Create a New Room</a>
                                 </li>
                             @endif
                         </ul>
                     </li>
-                    <li class="dropdown" @if(str_contains(Request::getRequestUri(),"/timeslots")) class="active" @endif>
+                    <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                         aria-haspopup="true" aria-expanded="false">Timeslots
                         <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li @if(str_contains(Request::getRequestUri(),"/timeslots")) class="active" @endif>
+                            <li>
                                 <a href="/timeslots">View all timeslots</a>
                             </li>
                             @if($access)
                                 <li role="separator" class="divider"></li>
-                                <li @if(str_contains(Request::getRequestUri(),"/timeslots/create")) class="active" @endif>
+                                <li>
                                     <a href="/timeslots/create">Create a New Timeslot</a>
                                 </li>
                             @endif
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">Reservations
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/reservations">View all reservations</a>
+                            </li>
+                            <li>
+                                <a href="/reservations/view/{{$user->id}}">My reservations</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/timeslots">Create a New Reservation</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -76,7 +93,10 @@
                     </li>
                 @else
                     <li @if(str_contains(Request::getRequestUri(),"/rooms")) class="active" @endif>
-                        <a href="/rooms">View all rooms</a>
+                        <a href="/rooms">Rooms</a>
+                    </li>
+                    <li @if(str_contains(Request::getRequestUri(),"/reservations")) class="active" @endif>
+                        <a href="/reservations">Reservations</a>
                     </li>
                     <li @if(Request::getRequestUri() == "/login") class="active" @endif>
                         <a href='/login'>Log in</a>
@@ -91,6 +111,3 @@
     </div><!-- /.container-fluid -->
 </nav>
 @show
-
-{{-- this will display the submenu if the tool specificially have a submenu --}}
-@yield('submenu')

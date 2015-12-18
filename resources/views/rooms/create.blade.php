@@ -64,7 +64,7 @@ Add a New Room
             <a href="/rooms">
                 <button type="button" class="btn btn-default btn-lg">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                     Return to previous page
+                     Return to rooms listing
                 </button>
             </a>
         </div>

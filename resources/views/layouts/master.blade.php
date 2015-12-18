@@ -50,7 +50,8 @@
         <section id="page_header">
             @yield('page_header')
         </section>
-        <section>
+        <br>
+        <section class="well well-lg">
             {{-- Main page content will be yielded here --}}
             @yield('content')
         </section>

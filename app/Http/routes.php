@@ -21,10 +21,12 @@ Route::get('/', function () {
 // *****************************************************************************
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/user', 'UsersController@getUser');
+    Route::get('/user/create', 'UsersController@getCreate');
     Route::get('/user/edit', 'UsersController@getUserEdit');
     Route::get('/user/edit/password', 'UsersController@getUserPassword');
     Route::get('/user/confirm-delete/{user_id?}', 'UsersController@getConfirmDelete');
 
+    Route::post('/user/create', 'UsersController@postCreate');
     Route::post('/user/edit', 'UsersController@postUserEdit');
     Route::post('/user/edit/password', 'UsersController@postUserPassword');
     Route::post('/user/delete', 'UsersController@postDoDelete');
@@ -35,10 +37,11 @@ Route::group(['middleware' => 'auth'], function () {
 // Rooms routes
 // *****************************************************************************
 Route::get('/rooms', 'RoomsController@getRooms');
-Route::get('/rooms/reservations/{room_id?}', 'RoomsController@getRoomsUpcomingReservations');
+Route::get('/rooms/roomReservations/{room_id?}', 'RoomsController@getRoomsUpcomingReservations');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/rooms/reservations/all/{room_id?}', 'RoomsController@getRoomsAllReservations');
+    Route::get('/rooms/view/{room_id?}', 'RoomsController@getView');
+    Route::get('/rooms/roomReservations/all/{room_id?}', 'RoomsController@getRoomsAllReservations');
     Route::get('/rooms/create', 'RoomsController@getRoomsCreate');
     Route::get('/rooms/edit/{room_id?}', 'RoomsController@getRoomsEdit');
     Route::get('/rooms/confirm-delete/{room_id?}', 'RoomsController@getConfirmDelete');
@@ -55,15 +58,34 @@ Route::get('/reservations', 'ReservationsController@getReservations');
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('/reservations/view/{reservation_id?}', 'ReservationsController@getMyView');
+    Route::get('/reservations/{room_id?}/create', 'ReservationsController@getCreate');
+    Route::get('/reservations/edit/{reservation_id?}', 'ReservationsController@getEdit');
+    Route::get('/reservations/requests', 'ReservationsController@getRequest');
+    Route::get('/reservations/approve/{reservation_id?}', 'ReservationsController@getApprove');
+    Route::get('/reservations/reject/{reservation_id?}', 'ReservationsController@getReject');
+    Route::get('/reservations/confirm-delete/{timeslot_id?}', 'ReservationsController@getConfirmDelete');
+
+    Route::post('/reservations/{room_id?}/create', 'ReservationsController@postCreate');
+    Route::post('/reservations/edit/{reservation_id?}', 'ReservationsController@postEdit');
+    Route::post('/reservations/requests', 'ReservationsController@postRequest');
+    Route::post('/reservations/delete', 'ReservationsController@postDoDelete');
+    
 });
 
 // *****************************************************************************
 // Timeslots routes
 // *****************************************************************************
-Route::get('/timeslots', 'TimeslotsController@getTimeslots');
-
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/timeslots', 'TimeslotsController@getTimeslots');
+    Route::get('/timeslots/view/{timeslot_id?}', 'TimeslotsController@getView');
+    Route::get('/timeslots/create', 'TimeslotsController@getCreate');
+    Route::get('/timeslots/edit/{timeslot_id?}', 'TimeslotsController@getEdit');
+    Route::get('/timeslots/confirm-delete/{timeslot_id?}', 'TimeslotsController@getConfirmDelete');
 
+    Route::post('/timeslots/create', 'TimeslotsController@postCreate');
+    Route::post('/timeslots/edit/{timeslot_id?}', 'TimeslotsController@postEdit');
+    Route::post('/timeslots/delete', 'TimeslotsController@postDoDelete');
 });
 
  // *****************************************************************************

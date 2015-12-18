@@ -13,7 +13,11 @@ List of Rooms
         <table class="table table-hover table-striped">
             <thead>
                 <tr style="font-size:1.2em;font-weight:bold;">
-                    <td>Rooms</td>
+                    <td>Rooms
+                        <span style="font-size:0.8em;font-weight:normal;">
+                        (Click on the room to see reservations under each room)
+                        </span>
+                    </td>
                     <td>Location</td>
                     <td class="textcenter">Maximum People</td>
                     <td class="textcenter">Action(s)</td>
@@ -22,7 +26,7 @@ List of Rooms
             <tbody>
             @foreach($rooms as $room)
                 <tr>
-                    <td><a href='/rooms/reservations/{{$room->id}}'>
+                    <td><a href='/rooms/roomReservations/{{$room->id}}'>
                         {{ $room->room_name }}</a></td>
                     <td>{{ $room->room_location }}</td>
                     <td class="textcenter">{{ $room->room_max_ppl }}</td>
