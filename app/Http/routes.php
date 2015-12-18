@@ -13,14 +13,18 @@
 
 //dashboard
 Route::get('/', function () {
-    $user = \Auth::user();
-    $reservations = \App\Reservation::orderBy('date_of_event', 'ASC')
-                                    ->orderBy('start_time', 'ASC')
-                                    ->orderBy('room_id', 'ASC')
-                                    ->where('user_id', '=', $user->id)
-                                    ->with('room')
-                                    ->get();
-    return view('welcome')->with('reservations', $reservations);
+    if(\Auth::check()){
+        $user = \Auth::user();
+        $reservations = \App\Reservation::orderBy('date_of_event', 'ASC')
+                                        ->orderBy('start_time', 'ASC')
+                                        ->orderBy('room_id', 'ASC')
+                                        ->where('user_id', '=', $user->id)
+                                        ->with('room')
+                                        ->get();
+        return view('welcome')->with('reservations', $reservations);
+    }else {
+        return view('welcome');
+    }
 });
 
 // *****************************************************************************
