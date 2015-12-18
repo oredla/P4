@@ -13,7 +13,12 @@
 
 //dashboard
 Route::get('/', function () {
-    return view('welcome');
+    $reservations = \App\Reservation::orderBy('date_of_event', 'ASC')
+                                    ->orderBy('start_time', 'ASC')
+                                    ->orderBy('room_id', 'ASC')
+                                    ->with('room')
+                                    ->get();
+    return view('welcome')->with('reservations', $reservations);
 });
 
 // *****************************************************************************
@@ -70,7 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/reservations/edit/{reservation_id?}', 'ReservationsController@postEdit');
     Route::post('/reservations/requests', 'ReservationsController@postRequest');
     Route::post('/reservations/delete', 'ReservationsController@postDoDelete');
-    
+
 });
 
 // *****************************************************************************
