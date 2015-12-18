@@ -12,7 +12,9 @@ A member role has the ability to manage his/her own profile, deleting themselves
 
 
 ## Demo
+[http://screencast.com/t/lSPn0JBU7Lp](http://screencast.com/t/lSPn0JBU7Lp)
 
+There are so many things that I would love to demo, but there are just so little tiem to fit it all in. Please feel free to ask me any questions you may have. 
 
 ## Details for teaching team
 1. jill@harvard.edu (password as Susan instructed.)
@@ -20,7 +22,6 @@ A member role has the ability to manage his/her own profile, deleting themselves
 
 2. jamal@harvard.edu (same on the password situation)
   - this is an admin account that has access to everything. 
-
 
 ## Each Tabs and Tables
 1. **User's Profile and Users**:
