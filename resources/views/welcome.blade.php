@@ -30,7 +30,7 @@ Welcome, Guest!
         This is the Room Reservation App for Boston Chinese Evangelical Church (BCEC).
     </p>
     @if(\Auth::check())
-        @if(!isset($reservations))
+        @if(!is_null($reservations))
             <p>
                 Here's your reservations summary:
             </p>
@@ -93,8 +93,9 @@ Welcome, Guest!
                         </i></td>
                         <td></td>
                     </tr>
-                </tbody>
+                    @endif
                 @endforeach
+            </tbody>
             </table>
         @else
             <h3 class="textcenter">You currently have no room reservations.</h3>
