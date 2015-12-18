@@ -69,8 +69,8 @@ My Reservations
                     </i></td>
                     <td></td>
                 </tr>
-            </tbody>
             @endforeach
+            </tbody>
         </table>
     @else
         <h3 class="textcenter">No Reservations found</h3>

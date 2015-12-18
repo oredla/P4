@@ -120,7 +120,7 @@ class UsersController extends Controller {
             $delete_user->delete();
             \Session::flash('flash_message', $delete_user->name.'&#39;s account has been deleted.');
             // return redirect('/user/manager');
-            return redirect('/user');
+            return redirect('/users');
         }
         elseif($delete_user->id == $user->id){
             \Auth::logout();
@@ -146,23 +146,44 @@ class UsersController extends Controller {
     public function postCreate(Request $request) {
         $this->validate($request,
             [
-              'id' => 'required',
               'inputEmail' => 'required|email',
               'inputName' => 'required',
+              'inputPassword' => 'required|min:8',
+              'inputUserRole' => 'required',
+              //inputUserGroup and inputUserVerified can leave as optional
             ]
         );
-
-        $user = \App\User::find($request->id);
+        $user = \App\User::firstOrCreate(['email' => $request->inputEmail]);
         $user->name = $request->inputName;
         $user->email = $request->inputEmail;
-        if(($user->user_role == 'admin') and isset($request->inputUserRole)){
+        if(!is_null($request->inputUserRole)){
             $user->user_role = $request->inputUserRole;
         }
-        $user->user_group = $request->inputUserGroup;
-        $user->user_verified = $request->inputUserVerified;
+        if(!is_null($request->inputUserGroup)){
+            $user->user_group = $request->inputUserGroup;
+        }
+        if(!is_null($request->inputUserVerified)){
+            $user->user_verified = $request->inputUserVerified;
+        }
         $user->save();
 
         \Session::flash('flash_message','New User: '.$user->name.' has been saved.');
-        return redirect('/user');
+        return redirect('/users');
+    }
+
+    /**
+     * Responds to requests to GET /users/list
+     */
+    public function getUsersList() {
+        $users = \App\User::all();
+        return view('users.list')->with('users',$users);
+    }
+    /**
+     * Responds to requests to GET /users/list
+     */
+    public function postUsersList($user_id) {
+
+        $users = \App\User::all();
+        return view('users.list')->with('users',$users);;
     }
  }

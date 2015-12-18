@@ -14,7 +14,7 @@ Add a New User
 
 @section('content')
     @if($access)
-    <form method="POST" action="/users/create" class="form-horizontal">
+    <form method="POST" action="/user/create" class="form-horizontal">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label class="col-sm-2 control-label">Name</label>
@@ -71,7 +71,7 @@ Add a New User
             <label class="col-sm-2 control-label">User Verified?</label>
             <div class="col-sm-10">
                 <input type="checkbox" name="inputUserVerified"
-                        value="{{ old('inputUserGroup') }}">
+                        value="{{ old('inputUserVerified') }}">
             </div>
         </div>
         <div class="form-group">
@@ -81,7 +81,7 @@ Add a New User
                  Update
                 </button>
                 &#160;&#160;
-                <a href="/rooms">
+                <a href="/users">
                     <button type="button" class="btn btn-default btn-lg">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                          Cancel

@@ -13,9 +13,11 @@
 
 //dashboard
 Route::get('/', function () {
+    $user = \Auth::user();
     $reservations = \App\Reservation::orderBy('date_of_event', 'ASC')
                                     ->orderBy('start_time', 'ASC')
                                     ->orderBy('room_id', 'ASC')
+                                    ->where('user_id', '=', $user->id)
                                     ->with('room')
                                     ->get();
     return view('welcome')->with('reservations', $reservations);
@@ -35,6 +37,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/edit', 'UsersController@postUserEdit');
     Route::post('/user/edit/password', 'UsersController@postUserPassword');
     Route::post('/user/delete', 'UsersController@postDoDelete');
+
+    Route::get('/users', 'UsersController@getUsersList');
+    Route::post('/users', 'UsersController@postUsersList');
 });
 
 

@@ -70,8 +70,9 @@ List of Reservations for {{ \App\Room::find($room_id)->room_name }}
                         </a>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
-            @endforeach
+
         </table>
     @else
         <h3 class="textcenter">No reservations found for this room.</h3>

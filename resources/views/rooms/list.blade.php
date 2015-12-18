@@ -46,8 +46,8 @@ List of Rooms
                         </a>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
-            @endforeach
         </table>
     @else
         <h3 class="textcenter">No Rooms found</h3>

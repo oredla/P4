@@ -89,8 +89,8 @@ List of Timeslots
                         </a>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
-            @endforeach
         </table>
     @else
         <h3 class="textcenter">No Timeslots found</h3>

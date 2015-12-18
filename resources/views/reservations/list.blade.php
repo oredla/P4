@@ -81,8 +81,8 @@ List of All Reservations
                     <td></td>
                 </tr>
                 @endif
-            </tbody>
             @endforeach
+            </tbody>
         </table>
     @else
         <h3 class="textcenter">No Reservations found</h3>
