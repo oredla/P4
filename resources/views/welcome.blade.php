@@ -93,7 +93,6 @@ Welcome, Guest!
                         </i></td>
                         <td></td>
                     </tr>
-                    @endif
                 @endforeach
             </tbody>
             </table>
