@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         $user->password = \Hash::make('helloworld');
         $user->user_role = 'leader';
         $user->user_group = 'Joshua 1 Fellowship';
-        $user->user_verified = 'true';
+        $user->user_verified = false;
         $user->save();
 
         $user = \App\User::firstOrCreate(['email' => 'jamal@harvard.edu']);
@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
         $user->password = \Hash::make('helloworld');
         $user->user_role = 'admin';
         $user->user_group = 'Global';
-        $user->user_verified = 'true';
+        $user->user_verified = true;
         $user->save();
 
         $user = \App\User::firstOrCreate(['email' => 'jack@harvard.edu']);
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
         $user->password = \Hash::make('helloworld');
         $user->user_role = 'viewer';
         $user->user_group = 'Joshua 1 Fellowship';
-        $user->user_verified = 'false';
+        $user->user_verified = true;
         $user->save();
     }
 }

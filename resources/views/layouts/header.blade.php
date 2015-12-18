@@ -37,21 +37,54 @@
                 {{-- There are IF tests to set test which page we are currently on and highlight the page as active --}}
                 @if(Auth::check())
                     <li @if(Request::getRequestUri() == "/user") class="active" @endif>
-                        <a href='/user'>{{ $user->name }}</a>
+                        <a href='/user'>{{ $user->name }}&#39;s Profile</a>
                     </li>
-                    <li @if(Request::getRequestUri() == "/rooms") class="active" @endif>
-                        <a href='/rooms'>Rooms</a>
+                    <li class="dropdown" @if(str_contains(Request::getRequestUri(),"/rooms")) class="active" @endif>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">Rooms
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li @if(str_contains(Request::getRequestUri(),"/rooms")) class="active" @endif>
+                                <a href="/rooms">View all rooms</a>
+                            </li>
+                            @if($access)
+                                <li role="separator" class="divider"></li>
+                                <li @if(str_contains(Request::getRequestUri(),"/rooms/create")) class="active" @endif>
+                                    <a href="/rooms/create">Create a New Room</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                    <li class="dropdown" @if(str_contains(Request::getRequestUri(),"/timeslots")) class="active" @endif>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">Timeslots
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li @if(str_contains(Request::getRequestUri(),"/timeslots")) class="active" @endif>
+                                <a href="/timeslots">View all timeslots</a>
+                            </li>
+                            @if($access)
+                                <li role="separator" class="divider"></li>
+                                <li @if(str_contains(Request::getRequestUri(),"/timeslots/create")) class="active" @endif>
+                                    <a href="/timeslots/create">Create a New Timeslot</a>
+                                </li>
+                            @endif
+                        </ul>
                     </li>
                     <li>
                         <a href='/logout'>Log out</a>
                     </li>
                 @else
+                    <li @if(str_contains(Request::getRequestUri(),"/rooms")) class="active" @endif>
+                        <a href="/rooms">View all rooms</a>
+                    </li>
                     <li @if(Request::getRequestUri() == "/login") class="active" @endif>
                         <a href='/login'>Log in</a>
                     </li>
                     <li @if(Request::getRequestUri() == "/register") class="active" @endif>
                         <a href='/register'>Register</a>
                     </li>
+
                 @endif
             </ul>
         </div><!-- /.navbar-collapse -->

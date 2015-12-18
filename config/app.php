@@ -137,6 +137,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        Barryvdh\Debugbar\ServiceProvider::class,
+
+        Intervention\Validation\ValidationServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */
@@ -145,6 +149,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\ComposerServiceProvider::class,
     ],
 
     /*
@@ -194,6 +199,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

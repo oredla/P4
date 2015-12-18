@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Badcow\LoremIpsum;
 
 class UsersController extends Controller {
 
@@ -16,21 +15,121 @@ class UsersController extends Controller {
      * Responds to requests to GET /user
      */
     public function getUser() {
-        return view('users.profile');
+        return view('users.profile')->with('edit', false);
     }
+
     /**
-     * Responds to requests to POST /lorem-ipsum's generator page
+     * Responds to requests to GET /user/edit
      */
-    public function postLoremGenerator(Request $request) {
-        // Validate the request data: loreminput
-        $this->validate($request,
-          ['loreminput' => 'required|integer|min:1|max:99']
-        );
-        $generator = new LoremIpsum\Generator();
-        $paragraphs = $generator->getParagraphs($request['loreminput']);
-        //this way of implode will ensure the beginning of the paragraph will have a proper <p> tag
-        //the example on http://p3.dwa15.com/lorem-ipsum does not generate the first <p> tag
-         $output = '<p>' . implode('</p><p>', $paragraphs ) . '</p>';
-        return view('loremipsum.lorem')->with('output', $output);
+    public function getUserEdit() {
+        return view('users.profile')->with('edit', true);
     }
-  }
+
+    /**
+     * Responds to requests to POST /user/edit
+     */
+    public function postUserEdit(Request $request) {
+        $this->validate($request,
+            [
+              'id' => 'required',
+              'inputEmail' => 'required|email',
+              'inputName' => 'required',
+            ]
+        );
+
+        $user = \App\User::find($request->id);
+        $user->name = $request->inputName;
+        $user->email = $request->inputEmail;
+        if(($user->user_role == 'admin') and isset($request->inputUserRole)){
+            $user->user_role = $request->inputUserRole;
+        }
+        $user->user_group = $request->inputUserGroup;
+        $user->user_verified = $request->inputUserVerified;
+        $user->save();
+
+        \Session::flash('flash_message','Your update has been saved.');
+        return redirect('/user');
+    }
+
+    /**
+     * Responds to requests to GET /user/edit/password
+     */
+    public function getUserPassword() {
+        return view('users.password');
+    }
+
+    /**
+     * Responds to requests to POST /user/edit/password
+     */
+    public function postUserPassword(Request $request) {
+        $this->validate($request,
+            [
+              'inputCurrentPassword' => 'required|min:8',
+              'inputNewPassword' => 'required|min:8',
+              'inputConfirmPassword' => 'required|min:8',
+            ]
+          );
+
+        $user = \App\User::find($request->id);
+        if(\Hash::check($request->inputCurrentPassword, $user->password)){
+            if ($request->inputNewPassword == $request->inputConfirmPassword){
+                $user->password = \Hash::make($request->inputNewPassword);
+                $user->save();
+                \Session::flash('flash_message','Your password has been changed.');
+                return redirect('/user');
+            }
+            else{
+                \Session::flash('flash_message','Your new password and confirm password did not match, please try again.');
+                return redirect('/user/edit/password');
+            }
+        }
+        else{
+            \Session::flash('flash_message','Your current password is incorrect, please try again.');
+            return redirect('/user/edit/password');
+        }
+    }
+
+    /**
+     * Responds to requests to GET /user/confirm-delete
+     */
+    public function getConfirmDelete($user_id) {
+        $delete_user = \App\User::find($user_id);
+        if(is_null($delete_user)){
+            \Session::flash('flash_message','You are trying to delete an account that has already been deleted.');
+            return redirect('/');
+        }
+        else{
+            return view('users.delete')->with('delete_user', $delete_user);
+        }
+    }
+
+    /**
+     * Responds to requests to get /user/delete/{user_id}
+     */
+    public function postDoDelete(Request $request) {
+        $this->validate($request,
+            [
+                'id' => 'required',
+                'delete_id' => 'required',
+            ]
+        );
+
+        $user = \App\User::find($request->id);
+        $delete_user = \App\User::find($request->delete_id);
+        if($user->user_role == 'admin'){
+            $delete_user->delete();
+            \Session::flash('flash_message', $delete_user->name.'&#39;s account has been deleted.');
+            // return redirect('/user/manager');
+            return redirect('/user');
+        }
+        elseif($delete_user->id == $user->id){
+            \Auth::logout();
+            \Session::flash('flash_message', $delete_user->name.'&#39;s account has been deleted. Please contact Administrators for restoring your account.');
+            return redirect('/');
+        }else {
+            \Session::flash('flash_message', 'You don&#39;t have the previlege to delete another user&#39;s account.');
+            return redirect('/user');
+        }
+
+    }
+ }

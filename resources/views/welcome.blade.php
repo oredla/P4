@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+Welcome Page
+@stop
+
 @section('content')
-    homepage
+    <h1>Welcome Landing</h1>
 @stop

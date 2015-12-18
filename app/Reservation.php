@@ -11,4 +11,10 @@ class Reservation extends Model
         # Define an inverse one-to-many relationship.
         return $this->belongsTo('\App\Room');
     }
+    
+    public function user() {
+        # A reservation belongs to a room
+        # Define an inverse one-to-many relationship.
+        return $this->belongsTo('\App\Room');
+    }
 }

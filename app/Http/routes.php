@@ -20,8 +20,52 @@ Route::get('/', function () {
 // User Profile and Management routes
 // *****************************************************************************
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/user', 'UsersController@getUser')
+    Route::get('/user', 'UsersController@getUser');
+    Route::get('/user/edit', 'UsersController@getUserEdit');
+    Route::get('/user/edit/password', 'UsersController@getUserPassword');
+    Route::get('/user/confirm-delete/{user_id?}', 'UsersController@getConfirmDelete');
+
+    Route::post('/user/edit', 'UsersController@postUserEdit');
+    Route::post('/user/edit/password', 'UsersController@postUserPassword');
+    Route::post('/user/delete', 'UsersController@postDoDelete');
 });
+
+
+// *****************************************************************************
+// Rooms routes
+// *****************************************************************************
+Route::get('/rooms', 'RoomsController@getRooms');
+Route::get('/rooms/reservations/{room_id?}', 'RoomsController@getRoomsUpcomingReservations');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/rooms/reservations/all/{room_id?}', 'RoomsController@getRoomsAllReservations');
+    Route::get('/rooms/create', 'RoomsController@getRoomsCreate');
+    Route::get('/rooms/edit/{room_id?}', 'RoomsController@getRoomsEdit');
+    Route::get('/rooms/confirm-delete/{room_id?}', 'RoomsController@getConfirmDelete');
+
+    Route::post('/rooms/create', 'RoomsController@postRoomsCreate');
+    Route::post('/rooms/edit/{room_id?}', 'RoomsController@postRoomsEdit');
+    Route::post('/rooms/delete', 'RoomsController@postDoDelete');
+});
+
+// *****************************************************************************
+// Reservations routes
+// *****************************************************************************
+Route::get('/reservations', 'ReservationsController@getReservations');
+
+Route::group(['middleware' => 'auth'], function () {
+
+});
+
+// *****************************************************************************
+// Timeslots routes
+// *****************************************************************************
+Route::get('/timeslots', 'TimeslotsController@getTimeslots');
+
+Route::group(['middleware' => 'auth'], function () {
+
+});
+
  // *****************************************************************************
  // User authentication routes
  // *****************************************************************************

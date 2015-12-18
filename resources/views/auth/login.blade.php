@@ -1,39 +1,52 @@
 @extends('layouts.master')
 
+@section('title')
+Login
+@stop
+
+@section('page_header')
+<h1>
+    Login Now
+</h1>
+@stop
+
 @section('content')
-
-    <p>Don't have an account? <a href='/register'>Register here...</a></p>
-
-    <h1>Login</h1>
-
-    @if(count($errors) > 0)
-        <ul class='errors'>
-            @foreach ($errors->all() as $error)
-                <li><span class='fa fa-exclamation-circle'></span> {{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
-
-    <form method='POST' action='/login'>
-
-        {!! csrf_field() !!}
-
-        <div class='form-group'>
-            <label for='email'>Email</label>
-            <input type='text' name='email' id='email' value='{{ old('email') }}'>
+<p>Don't have an account? <a href='/register'>Register here...</a></p>
+<form method="POST" action="/login" class="form-horizontal">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for='email'>Email</label>
+        <div class="col-sm-10">
+            <input type='email' name='email' class="form-control" id='email'
+                    value='{{ old('email') }}'>
         </div>
-
-        <div class='form-group'>
-            <label for='password'>Password</label>
-            <input type='password' name='password' id='password' value='{{ old('password') }}'>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for='password'>Password</label>
+        <div class="col-sm-10">
+            <input type='password' name='password' class="form-control" id='password'>
         </div>
-
-        <div class='form-group'>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for='remember'>Remember me</label>
+        <div class="col-sm-10">
             <input type='checkbox' name='remember' id='remember'>
-            <label for='remember' class='checkboxLabel'>Remember me</label>
         </div>
-
-        <button type='submit' class='btn btn-primary'>Login</button>
-
-    </form>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+             Login
+            </button>
+            &#160;&#160;
+            <a href="/">
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                     Cancel
+                </button>
+            </a>
+        </div>
+    </div>
+</form>
 @stop
