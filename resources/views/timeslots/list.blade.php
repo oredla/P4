@@ -6,6 +6,7 @@ List of Timeslots
 
 @section('page_header')
     <h1 class="textcenter">List of Timeslots</h1>
+    <h3>To create a room reservation, please click on a room's title to make start a request.</h3>
 @stop
 
 @section('content')
